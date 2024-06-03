@@ -6,7 +6,7 @@
 /*   By: doduwole <doduwole@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/01 10:46:32 by doduwole          #+#    #+#             */
-/*   Updated: 2024/06/01 10:46:33 by doduwole         ###   ########.fr       */
+/*   Updated: 2024/06/03 13:49:24 by doduwole         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -140,7 +140,8 @@ void CgiClient::parseCgiHeaders()
 
 void CgiClient::handleCgiHeaders(std::string &body_)
 {
-	std::string::size_type pos;
+	std::string::size_type pos = std::string::npos;
+	
 	if (body_.find("\r\n\r\n") != std::string::npos)
 		pos = body_.find("\r\n\r\n");
 	else if (body_.find("\r\n") != std::string::npos)
