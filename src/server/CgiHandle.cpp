@@ -6,7 +6,7 @@
 /*   By: doduwole <doduwole@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/01 10:46:44 by doduwole          #+#    #+#             */
-/*   Updated: 2024/06/01 10:46:45 by doduwole         ###   ########.fr       */
+/*   Updated: 2024/06/04 15:35:27 by doduwole         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -175,14 +175,16 @@ void CgiHandle::setPath(){
 }
 
 std::string CgiHandle::getExecPath(){
-	if (checkShebang().size() > 0)
-		return checkShebang();
-	if (this->_cgi_ext == ".py")
-		return "/usr/bin/python3";
-	else if (this->_cgi_ext == ".sh")
-		return "/bin/bash";
-	else
-		return "";
+    if (checkShebang().size() > 0)
+        return checkShebang();
+    if (this->_cgi_ext == ".py")
+        return "/usr/bin/python3";
+    else if (this->_cgi_ext == ".sh")
+        return "/bin/bash";
+    else if (this->_cgi_ext == ".php")
+        return "/usr/bin/php";
+    else
+        return "";
 }
 
 void CgiHandle::setArgv(){
