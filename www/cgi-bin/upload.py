@@ -48,7 +48,6 @@ response = {
     "status": status_message
 }
 
-# Print the correct HTTP status code
 print(f"Status: {http_status} {'Created' if http_status == 201 else 'Bad Request'}")
 print("Content-Type: application/json;charset=utf-8")
 print()

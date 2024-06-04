@@ -2,13 +2,10 @@
 
 import os
 from http import cookies
-# Import modules for CGI handling 
 import cgi, cgitb 
 
-# Create instance of FieldStorage 
 form = cgi.FieldStorage() 
 
-# Get data from fields
 cookie_name = form.getvalue('cookieName')
 
 print("HTTP/1.1 200 OK")
