@@ -1,0 +1,25 @@
+#  POST
+curl -X POST --data-binary @test.mp4 -H "Content-Type: video/mp4" -H "X-Filename: test.mp4" http://localhost > /dev/null
+
+curl -X POST -F "file=@test.mp4;filename=test.mp4" -H "Content-Type: video/mp4" http://localhost -o /dev/null  
+
+
+#  PUT
+curl -X PUT -F "file=@Makefile;filename=Makefile" -H "Content-Type: text/plain" -u "admin:adminer" http://localhost/serverDB/Makefile -o /dev/null
+
+curl -X PUT -H "Content-Type: text/plain" -u admin:adminer  --data-binary "@Makefile_copy" http://localhost/serverDB/Makefile -o /dev/null
+
+#  DELETE
+curl -X DELETE -u "admin:adminer" localhost/serverDB/test.mp4
+
+# CGI POST CURL
+curl -X POST "http://localhost/cgi-bin/upload.py" \
+     -F "uploadFile=@./Makefile" \
+     -F "name=John" \
+     -F "email=Doe@test.com"
+
+curl -X POST "http://localhost/cgi-bin/hello.py" \
+     -F "first_name=Jon" \        
+     -F "last_name=Do"
+
+http://localhost/cgi-bin/hello.py?first_name=John&last_name=Doe
