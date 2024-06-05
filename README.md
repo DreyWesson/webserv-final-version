@@ -973,3 +973,85 @@ These functions essentially map domain names to server file descriptors based on
 
 
 
+The main goal of the CGI (Common Gateway Interface) handling in this code is to manage the interaction between a web server and external CGI scripts. The code handles the setup, execution, and response handling of CGI scripts.
+
+Key Components
+Servers::handleIncomingCgi(int child_fd)
+CgiClient class
+CgiHandle class
+1. Servers::handleIncomingCgi(int child_fd)
+This function manages incoming data from CGI processes. It performs several tasks:
+
+Finding the corresponding client_fd:
+
+The child_fd is the file descriptor (FD) of the child process (the CGI process).
+The function looks up the client_fd (the FD of the client connection) associated with this child_fd in _cgi_clients_childfd.
+Handling null CGI clients:
+
+If the _cgi_clients[client_fd] is NULL, the function removes the CGI process from the epoll instance, deletes the client, and cleans up related mappings.
+Processing the CGI response:
+
+If the CGI client is valid, HandleCgi() is called on the CgiClient object.
+Depending on the CGI process's status code, it either prepares and sends the HTTP response back to the client or handles errors.
+2. CgiClient Class
+This class encapsulates the logic for managing CGI processes. Here's a breakdown of its key functions:
+
+Constructor and Destructor:
+
+The constructor initializes the CgiClient with a Client object and an epoll_fd. It sets up various configurations and initializes the CgiHandle object.
+The destructor cleans up by deleting the CGI handle, closing pipes, and terminating the CGI process.
+HandleCgi():
+
+Reads data from the CGI process's output.
+Parses headers if they haven't been parsed yet.
+Sets the HTTP response status code and content length.
+toCgi():
+
+Sends the request body to the CGI process via its input pipe.
+fromCgi():
+
+Reads the response from the CGI process via its output pipe and appends it to the response body.
+Handles the parsing of headers if they haven't been parsed yet.
+Helper functions:
+
+Functions like setCgiPipe, closeParentCgiPipe, and deleteChild manage file descriptors and pipes associated with the CGI process.
+parseCgiHeaders and handleCgiHeaders handle parsing the headers from the CGI response.
+getResponseString and getResponse retrieve the HTTP response.
+3. CgiHandle Class
+This class handles the creation and management of the actual CGI process.
+
+Constructor and Destructor:
+
+Initializes environment variables and sets up pipes for communication.
+Executes the CGI script by forking a new process and using execve.
+Environment Setup:
+
+initEnv() sets up the necessary environment variables for the CGI script.
+Pipe Management:
+
+setPipe() sets up the pipes for inter-process communication.
+closePipe() closes these pipes.
+Executing the CGI Script:
+
+execCgi() handles the forking of the process and executing the CGI script with the correct arguments and environment.
+Helper functions:
+
+setPath, setArgv, and createEnvArray help prepare the execution environment for the CGI script.
+combineFds adds the CGI process's output pipe to the epoll instance to monitor it for readability.
+Detailed Flow
+Receiving and Handling CGI Responses:
+
+Servers::handleIncomingCgi receives data from the CGI process (child_fd).
+It identifies the associated client connection (client_fd).
+Processing the CGI Output:
+
+The CgiClient::HandleCgi method is called, which reads data from the CGI process and updates the HTTP response.
+Sending the Response Back to the Client:
+
+If the CGI process completes successfully (status 200 or 500), the response is prepared and sent back to the client using write.
+The client is then cleaned up, and relevant file descriptors are removed from monitoring.
+Managing CGI Execution:
+
+CgiHandle sets up the environment, pipes, and executes the CGI script.
+Handles reading from and writing to the CGI process through its pipes.
+This flow ensures that the server can correctly handle CGI requests, process their responses, and deliver them back to the client, maintaining the overall HTTP communication process.

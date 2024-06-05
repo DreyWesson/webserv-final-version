@@ -6,7 +6,7 @@
 /*   By: doduwole <doduwole@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/01 10:25:18 by doduwole          #+#    #+#             */
-/*   Updated: 2024/06/01 15:19:35 by doduwole         ###   ########.fr       */
+/*   Updated: 2024/06/05 11:30:42 by doduwole         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,89 +97,6 @@ int HttpResponse::POST() {
     return status_code;
 }
 
-// int HttpResponse::PUT() {
-//     pthread_mutex_lock(&g_write);
-
-//     int status_code = 500;
-
-//     if (!file_) {
-//         std::cerr << "File not found" << std::endl;
-//         pthread_mutex_unlock(&g_write);
-//         return 500;
-//     }
-
-//     if (file_->exists()) {
-//         // Update existing file
-//         if (file_->updateFile(config_.getBody())) {
-//             status_code = 200; // or 204 if no content in response is desired
-//         } else {
-//             std::cerr << "Failed to update file" << std::endl;
-//             status_code = 500;
-//         }
-//     } else {
-//         // Create new file
-//         if (file_->createFile(config_.getBody())) {
-//             status_code = 201;
-//         } else {
-//             std::cerr << "Failed to create file" << std::endl;
-//             status_code = 500;
-//         }
-//     }
-
-//     pthread_mutex_unlock(&g_write);
-//     return status_code;
-// }
-
-// int HttpResponse::PUT() {
-//     pthread_mutex_lock(&g_write);
-
-//     int status_code = 500;
-
-//     if (!file_) {
-//         std::cerr << "File not found" << std::endl;
-//         pthread_mutex_unlock(&g_write);
-//         return 500;
-//     }
-    
-//     if (file_->exists()) {
-//         MimeTypes mimeTypes;
-//         std::string contentType = config_.getHeader("content-type");
-//         bool isMultipart = containsBoundary(contentType);
-//         std::string boundary = isMultipart ? extractBoundary(contentType) : contentType;
-
-//         if (isMultipart && !boundary.empty()) {
-//             std::string filename = extractFilename(config_.getBody());
-//             std::string fileContent = extractContent(config_.getBody(), boundary);
-
-//             body_.clear();
-//             body_.append(fileContent);
-//             if (!filename.empty() && !fileContent.empty()) {
-//                 if (file_->updateFile(body_)) {
-//                     status_code = 200;
-//                 } else {
-//                     std::cerr << "Failed to update file" << std::endl;
-//                     status_code = 500;
-//                 }
-//             } else {
-//                 status_code = 400;
-//             }
-//         } else {
-            
-//             if (file_->createFile(body_)) {
-//                 status_code = 201;
-//             } else {
-//                 std::cerr << "Failed to create file" << std::endl;
-//                 status_code = 500;
-//             }
-//         }
-//     } else {
-//         std::cerr << "File does not exist" << std::endl;
-//         status_code = 404;
-//     }
-
-//     pthread_mutex_unlock(&g_write);
-//     return status_code;
-// }
 
 int HttpResponse::PUT() {
     pthread_mutex_lock(&g_write);
