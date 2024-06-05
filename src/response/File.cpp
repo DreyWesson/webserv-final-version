@@ -6,7 +6,7 @@
 /*   By: doduwole <doduwole@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/01 10:45:41 by doduwole          #+#    #+#             */
-/*   Updated: 2024/06/05 12:21:36 by doduwole         ###   ########.fr       */
+/*   Updated: 2024/06/05 12:47:53 by doduwole         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -164,21 +164,21 @@ int File::appendFile(const std::string &body)
         if (mkdir(dirPath.c_str(), 0755) != 0)
         {
             std::cerr << "Error creating directory: " << strerror(errno) << std::endl;
-            return 500;
+            return 400;
         }
     }
     fd_ = open(newPath.c_str(), flags, 0644);
     if (fd_ < 0)
     {
         std::cerr << "Error opening file for append: " << strerror(errno) << std::endl;
-        return 500;
+        return 400;
     }
 
     ssize_t bytes_written = write(fd_, body.c_str(), body.length());
     if (bytes_written <= 0)
     {
         std::cerr << "Error appending to file: " << strerror(errno) << std::endl;
-        return 500;
+        return 400;
     }
 
     closeFile();
@@ -197,21 +197,21 @@ int File::appendFile(const std::string &body,std::string x_filename)
         if (mkdir(dirPath.c_str(), 0755) != 0)
         {
             std::cerr << "Error creating directory: " << strerror(errno) << std::endl;
-            return 500;
+            return 400;
         }
     }
     fd_ = open(newPath.c_str(), flags, 0644);
     if (fd_ < 0)
     {
         std::cerr << "Error opening file for append: " << strerror(errno) << std::endl;
-        return 500;
+        return 400;
     }
 
     ssize_t bytes_written = write(fd_, body.c_str(), body.length());
     if (bytes_written <= 0)
     {
         std::cerr << "Error appending to file: " << strerror(errno) << std::endl;
-        return 500;
+        return 400;
     }
 
     closeFile();
