@@ -1,7 +1,7 @@
 #  POST
 curl -X POST --data-binary @test.mp4 -H "Content-Type: video/mp4" -H "X-Filename: test.mp4" http://localhost > /dev/null
 
-curl -X POST -F "file=@test.mp4;filename=test.mp4" -H "Content-Type: video/mp4" http://localhost -o /dev/null  
+curl -X POST -F "file=@test.mp4;filename=test.mp4" -H "Content-Type: video/mp4" http://localhost -o /dev/null
 
 
 #  PUT
@@ -11,6 +11,10 @@ curl -X PUT -H "Content-Type: text/plain" -u admin:adminer  --data-binary "@Make
 
 #  DELETE
 curl -X DELETE -u "admin:adminer" localhost/serverDB/test.mp4
+
+# TEST BODY LIMIT
+curl -X POST -H "Content-Type: text/plain" --data "BODY IS HERE write
+something shorter or longer than body limit" http://localhost
 
 # CGI POST CURL
 curl -X POST "http://localhost/cgi-bin/upload.py" \

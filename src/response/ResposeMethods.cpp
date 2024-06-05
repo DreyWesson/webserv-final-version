@@ -6,7 +6,7 @@
 /*   By: doduwole <doduwole@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/01 10:25:18 by doduwole          #+#    #+#             */
-/*   Updated: 2024/06/05 11:30:42 by doduwole         ###   ########.fr       */
+/*   Updated: 2024/06/05 12:22:23 by doduwole         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,8 +68,7 @@ int HttpResponse::POST() {
             body_.clear();
             body_.append(fileContent);
             if (!filename.empty() && !fileContent.empty()) {
-                file_->appendFile(fileContent, filename);
-                status_code = 201;
+                status_code = file_->appendFile(fileContent, filename);
             } else {
                 status_code = 400;
             }
@@ -82,8 +81,7 @@ int HttpResponse::POST() {
                 std::string default_name = "default" + ext;
                 std::string x_filename = config_.getHeader("X-Filename");
                 x_filename = x_filename.empty() ? default_name : x_filename;
-                file_->appendFile(body_, x_filename);
-                status_code = 201;
+                status_code = file_->appendFile(body_, x_filename);
             }
         }
     }

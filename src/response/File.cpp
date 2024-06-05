@@ -6,7 +6,7 @@
 /*   By: doduwole <doduwole@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/01 10:45:41 by doduwole          #+#    #+#             */
-/*   Updated: 2024/06/02 17:36:21 by doduwole         ###   ########.fr       */
+/*   Updated: 2024/06/05 12:21:36 by doduwole         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -154,7 +154,7 @@ void File::closeFile()
     fd_ = -1;
 }
 
-void File::appendFile(const std::string &body)
+int File::appendFile(const std::string &body)
 {
     int flags = O_CREAT | O_WRONLY | O_TRUNC;
     std::string dirPath = "www";
@@ -164,26 +164,28 @@ void File::appendFile(const std::string &body)
         if (mkdir(dirPath.c_str(), 0755) != 0)
         {
             std::cerr << "Error creating directory: " << strerror(errno) << std::endl;
-            return;
+            return 500;
         }
     }
     fd_ = open(newPath.c_str(), flags, 0644);
     if (fd_ < 0)
     {
         std::cerr << "Error opening file for append: " << strerror(errno) << std::endl;
-        return;
+        return 500;
     }
 
     ssize_t bytes_written = write(fd_, body.c_str(), body.length());
     if (bytes_written <= 0)
     {
         std::cerr << "Error appending to file: " << strerror(errno) << std::endl;
+        return 500;
     }
 
     closeFile();
+    return 201;
 }
 
-void File::appendFile(const std::string &body,std::string x_filename)
+int File::appendFile(const std::string &body,std::string x_filename)
 {
     int flags = O_CREAT | O_WRONLY | O_TRUNC;
     std::string dirPath = "www/serverDB/";
@@ -195,23 +197,25 @@ void File::appendFile(const std::string &body,std::string x_filename)
         if (mkdir(dirPath.c_str(), 0755) != 0)
         {
             std::cerr << "Error creating directory: " << strerror(errno) << std::endl;
-            return;
+            return 500;
         }
     }
     fd_ = open(newPath.c_str(), flags, 0644);
     if (fd_ < 0)
     {
         std::cerr << "Error opening file for append: " << strerror(errno) << std::endl;
-        return;
+        return 500;
     }
 
     ssize_t bytes_written = write(fd_, body.c_str(), body.length());
     if (bytes_written <= 0)
     {
         std::cerr << "Error appending to file: " << strerror(errno) << std::endl;
+        return 500;
     }
 
     closeFile();
+    return 201;
 }
 
 bool File::deleteFile()

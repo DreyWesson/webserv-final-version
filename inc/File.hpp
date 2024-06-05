@@ -6,7 +6,7 @@
 /*   By: doduwole <doduwole@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/01 10:42:09 by doduwole          #+#    #+#             */
-/*   Updated: 2024/06/01 14:19:26 by doduwole         ###   ########.fr       */
+/*   Updated: 2024/06/05 12:18:03 by doduwole         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,8 +51,8 @@ public:
     void parseExtNegotiation();
     void closeFile();
     bool createFile(const std::string &body);
-    void appendFile(const std::string &body);
-    void appendFile(const std::string &body, std::string filename);
+    int appendFile(const std::string &body);
+    int appendFile(const std::string &body, std::string filename);
     bool updateFile(const std::string &content);
     bool deleteFile();
     void set_path(std::string path, bool negotiation = false);
