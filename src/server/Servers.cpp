@@ -6,7 +6,7 @@
 /*   By: doduwole <doduwole@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/01 10:46:55 by doduwole          #+#    #+#             */
-/*   Updated: 2024/06/01 10:46:56 by doduwole         ###   ########.fr       */
+/*   Updated: 2024/06/06 17:52:57 by doduwole         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -244,11 +244,51 @@ void Servers::handleIncomingData(int client_fd){
 		deleteClient(client_fd);
 }
 
+// void Servers::initEvents(){
+// 	while (1){
+// 		try{
+// 			struct epoll_event events[_server_fds.size() + _client_amount];
+// 			int n = epoll_wait(this->_epoll_fds, events, _server_fds.size() + _client_amount, 1000);
+// 			if (n == -1) {
+// 				std::cerr << "Epoll_wait failed" << std::endl;
+// 				return ;
+// 			}
+// 			for (int i = 0; i < n; i++) {
+// 				bool server = false;
+// 				for (std::vector<int>::iterator it2 = _server_fds.begin(); it2 != _server_fds.end(); ++it2) {
+// 					if (events[i].data.fd == *it2) {
+// 						handleIncomingConnection(*it2);
+// 						server = true;
+// 						break ;
+// 					}
+// 				}
+// 				if (!server && events[i].events & EPOLLIN) {
+// 					if (_cgi_clients_childfd.find(events[i].data.fd) != _cgi_clients_childfd.end())
+// 					{
+// 						setTimeout(_cgi_clients_childfd[events[i].data.fd]);
+// 						handleIncomingCgi(events[i].data.fd);
+// 					}
+// 					else if (_client_data.find(events[i].data.fd) != _client_data.end())
+// 					{
+// 						setTimeout(events[i].data.fd);
+// 						handleIncomingData(events[i].data.fd);
+// 					}
+// 				}
+// 			}
+// 		} catch (std::exception &e){
+// 			std::cerr << e.what() << std::endl;
+// 		}
+// 		checkClientTimeout();
+// 		// printData();
+// 	}
+// }
+
 void Servers::initEvents(){
 	while (1){
 		try{
-			struct epoll_event events[_server_fds.size() + _client_amount];
-			int n = epoll_wait(this->_epoll_fds, events, _server_fds.size() + _client_amount, 1000);
+			// Use std::vector to dynamically allocate the array
+			std::vector<struct epoll_event> events(_server_fds.size() + _client_amount);
+			int n = epoll_wait(this->_epoll_fds, events.data(), events.size(), 1000); // Use data() to get the underlying array
 			if (n == -1) {
 				std::cerr << "Epoll_wait failed" << std::endl;
 				return ;
