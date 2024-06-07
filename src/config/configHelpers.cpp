@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   configHelpers.cpp                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: doduwole <doduwole@student.42.fr>          +#+  +:+       +#+        */
+/*   By: drey <drey@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/01 10:44:20 by doduwole          #+#    #+#             */
-/*   Updated: 2024/06/05 12:43:46 by doduwole         ###   ########.fr       */
+/*   Updated: 2024/06/07 22:32:24 by drey             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,8 @@
 
 std::string
 getIndexVariableKey(std::string key,
-                    std::map<std::string, std::vector<std::string>> keyValues) {
-  typedef std::map<std::string, std::vector<std::string>>::const_iterator
+                    std::map<std::string, std::vector<std::string> > keyValues) {
+  typedef std::map<std::string, std::vector<std::string> >::const_iterator
       MapIterator;
   std::stringstream finalKey;
   MapIterator it;
