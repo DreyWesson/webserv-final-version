@@ -257,26 +257,29 @@ void Servers::handleIncomingData(int client_fd) {
 // 	while (1){
 // 		try{
 // 			struct epoll_event events[_server_fds.size() +
-// _client_amount]; 			int n = epoll_wait(this->_epoll_fds, events,
-// _server_fds.size() + _client_amount, 1000); 			if (n == -1) { 				std::cerr <<
-// "Epoll_wait failed" << std::endl; 				return ;
+// _client_amount]; 			int n = epoll_wait(this->_epoll_fds,
+// events, _server_fds.size() + _client_amount, 1000); 			if (n ==
+// -1) { 				std::cerr << "Epoll_wait failed" <<
+// std::endl; 				return ;
 // 			}
 // 			for (int i = 0; i < n; i++) {
 // 				bool server = false;
 // 				for (std::vector<int>::iterator it2 =
-// _server_fds.begin(); it2 != _server_fds.end(); ++it2) { 					if (events[i].data.fd
-// == *it2) { 						handleIncomingConnection(*it2); 						server = true; 						break ;
+// _server_fds.begin(); it2 != _server_fds.end(); ++it2) {
+// if (events[i].data.fd
+// == *it2) { 						handleIncomingConnection(*it2);
+// server = true; 						break ;
 // 					}
 // 				}
 // 				if (!server && events[i].events & EPOLLIN) {
-// 					if (_cgi_clients_childfd.find(events[i].data.fd) !=
-// _cgi_clients_childfd.end())
+// 					if (_cgi_clients_childfd.find(events[i].data.fd)
+// != _cgi_clients_childfd.end())
 // 					{
 // 						setTimeout(_cgi_clients_childfd[events[i].data.fd]);
 // 						handleIncomingCgi(events[i].data.fd);
 // 					}
-// 					else if (_client_data.find(events[i].data.fd) !=
-// _client_data.end())
+// 					else if (_client_data.find(events[i].data.fd)
+// != _client_data.end())
 // 					{
 // 						setTimeout(events[i].data.fd);
 // 						handleIncomingData(events[i].data.fd);
