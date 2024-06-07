@@ -6,7 +6,7 @@
 /*   By: drey <drey@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/01 10:46:55 by doduwole          #+#    #+#             */
-/*   Updated: 2024/06/07 22:44:57 by drey             ###   ########.fr       */
+/*   Updated: 2024/06/07 22:45:43 by drey             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -398,7 +398,7 @@ std::vector<std::string> Servers::getPorts() {
 void Servers::assignLocalDomain(int server_fd) {
   // clang-format off
   std::map<std::string, std::vector<std::string> > config = getKeyValue();
-  for (std::map<std::string, std::vector<std::string>>::iterator it_domain =
+  for (std::map<std::string, std::vector<std::string> >::iterator it_domain =
            config.begin();
        it_domain != config.end(); it_domain++) {
     // clang-format on
