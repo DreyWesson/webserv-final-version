@@ -7,15 +7,15 @@ pipeline {
                 checkout scm
             }
         }
-        stage('Install Dependencies') {
-            steps {
-                sh '''
-                    sudo apt-get update
-                    sudo apt-get install -y clang-format cppcheck make nodejs npm
-                    npm install
-                '''
-            }
-        }
+        // stage('Install Dependencies') {
+        //     steps {
+        //         sh '''
+        //             sudo apt-get update
+        //             sudo apt-get install -y clang-format cppcheck make nodejs npm
+        //             npm install
+        //         '''
+        //     }
+        // }
         stage('Lint') {
             steps {
                 script {
