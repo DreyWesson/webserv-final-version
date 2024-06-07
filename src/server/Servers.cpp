@@ -396,7 +396,7 @@ std::vector<std::string> Servers::getPorts() {
 }
 
 void Servers::assignLocalDomain(int server_fd) {
-// clang-format off
+  // clang-format off
   std::map<std::string, std::vector<std::string>> config = getKeyValue();
   // clang-format on
   for (std::map<std::string, std::vector<std::string>>::iterator it_domain =
