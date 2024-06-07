@@ -3,20 +3,22 @@
 /*                                                        :::      ::::::::   */
 /*   configHelpers.cpp                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: doduwole <doduwole@student.42.fr>          +#+  +:+       +#+        */
+/*   By: drey <drey@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/01 10:44:20 by doduwole          #+#    #+#             */
-/*   Updated: 2024/06/05 12:43:46 by doduwole         ###   ########.fr       */
+/*   Updated: 2024/06/07 23:12:05 by drey             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/AllHeaders.hpp"
 
+// clang-format off
 std::string
 getIndexVariableKey(std::string key,
-                    std::map<std::string, std::vector<std::string>> keyValues) {
-  typedef std::map<std::string, std::vector<std::string>>::const_iterator
+                    std::map<std::string, std::vector<std::string> > keyValues) {
+  typedef std::map<std::string, std::vector<std::string> >::const_iterator
       MapIterator;
+  // clang-format on
   std::stringstream finalKey;
   MapIterator it;
   int index = 0;
