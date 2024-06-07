@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   AllHeaders.hpp                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: drey <drey@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: doduwole <doduwole@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/01 10:40:43 by doduwole          #+#    #+#             */
-/*   Updated: 2024/06/07 22:48:47 by drey             ###   ########.fr       */
+/*   Updated: 2024/06/01 14:03:47 by doduwole         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,6 +75,7 @@ std::vector<std::string> customSplit(const std::string &s, char delim);
 std::vector<std::string> split(const std::string &s, char delimiter);
 
 std::string cutTillSemicolon(std::string str);
+std::string getIndexVariableKey(std::string key, std::map<std::string, std::vector<std::string> > keyValues);
 std::string getValue(const std::map<std::string, std::vector<std::string> > &keyValues, const std::string &key);
 
 void printAllDBData(GroupedDBMap db);

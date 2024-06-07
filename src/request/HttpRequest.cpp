@@ -12,7 +12,8 @@
 
 #include "../../inc/HttpRequest.hpp"
 
-HttpRequest::HttpRequest() {
+HttpRequest::HttpRequest()
+{
   body_offset_ = 0;
   chunk_size_ = 0;
   buffer_section_ = REQUEST_LINE;
@@ -24,18 +25,34 @@ HttpRequest::HttpRequest() {
 HttpRequest::~HttpRequest() {}
 
 HttpRequest::HttpRequest(const HttpRequest &rhs)
-    : method_(rhs.method_), uri_(rhs.uri_), scheme_(rhs.scheme_),
-      authority_(rhs.authority_), path_(rhs.path_), query_(rhs.query_),
-      frag_(rhs.frag_), target_(rhs.target_), protocol_(rhs.protocol_),
-      headers_(rhs.headers_), body_(rhs.body_), req_buffer_(rhs.req_buffer_),
-      length_(rhs.length_), chunk_size_(rhs.chunk_size_),
-      isChunked_(rhs.isChunked_), body_offset_(rhs.body_offset_),
-      start_tv_(rhs.start_tv_), last_tv_(rhs.last_tv_),
-      buffer_section_(rhs.buffer_section_), chunk_status_(rhs.chunk_status_),
-      uri_suffix_(rhs.uri_suffix_) {}
+    : method_(rhs.method_),
+      uri_(rhs.uri_),
+      scheme_(rhs.scheme_),
+      authority_(rhs.authority_),
+      path_(rhs.path_),
+      query_(rhs.query_),
+      frag_(rhs.frag_),
+      target_(rhs.target_),
+      protocol_(rhs.protocol_),
+      headers_(rhs.headers_),
+      body_(rhs.body_),
+      req_buffer_(rhs.req_buffer_),
+      length_(rhs.length_),
+      chunk_size_(rhs.chunk_size_),
+      isChunked_(rhs.isChunked_),
+      body_offset_(rhs.body_offset_),
+      start_tv_(rhs.start_tv_),
+      last_tv_(rhs.last_tv_),
+      buffer_section_(rhs.buffer_section_),
+      chunk_status_(rhs.chunk_status_),
+      uri_suffix_(rhs.uri_suffix_)
+{
+}
 
-HttpRequest &HttpRequest::operator=(const HttpRequest &rhs) {
-  if (this != &rhs) {
+HttpRequest &HttpRequest::operator=(const HttpRequest &rhs)
+{
+  if (this != &rhs)
+  {
     method_ = rhs.method_;
     uri_ = rhs.uri_;
     scheme_ = rhs.scheme_;
@@ -61,7 +78,8 @@ HttpRequest &HttpRequest::operator=(const HttpRequest &rhs) {
   return *this;
 }
 
-int HttpRequest::parseRequest(std::string &buffer) {
+int HttpRequest::parseRequest(std::string &buffer)
+{
   size_t httpStatus = 0;
   std::string headerLines;
   std::string headers;
@@ -71,7 +89,8 @@ int HttpRequest::parseRequest(std::string &buffer) {
   req_buffer_.append(buffer);
   buffer.clear();
 
-  try {
+  try
+  {
     if (buffer_section_ == REQUEST_LINE)
       httpStatus = parseRequestLine();
     if (buffer_section_ == HEADERS)
@@ -86,23 +105,24 @@ int HttpRequest::parseRequest(std::string &buffer) {
 
     if (buffer_section_ == COMPLETE || httpStatus == 100)
       buffer_section_ = COMPLETE;
-    else if (buffer_section_ == ERROR ||
-             (httpStatus != 200 && httpStatus != 100))
+    else if (buffer_section_ == ERROR || (httpStatus != 200 && httpStatus != 100))
       buffer_section_ = ERROR;
-  } catch (const std::exception &e) {
+  }
+  catch (const std::exception &e)
+  {
     buffer_section_ = ERROR;
-    std::cerr << CURSIVE_GRAY << "Exception in parseRequest: " << e.what()
-              << RESET << std::endl;
+    std::cerr << CURSIVE_GRAY << "Exception in parseRequest: " << e.what() << RESET << std::endl;
     return 500;
   }
 
   return httpStatus;
 }
 
-void HttpRequest::parseContentLength() {
-  std::map<std::string, std::string>::iterator it =
-      headers_.find("Content-Length");
-  if (it != headers_.end()) {
+void HttpRequest::parseContentLength()
+{
+  std::map<std::string, std::string>::iterator it = headers_.find("Content-Length");
+  if (it != headers_.end())
+  {
     std::istringstream iss(it->second);
     size_t contentLength;
     if (!(iss >> contentLength))
@@ -115,36 +135,75 @@ void HttpRequest::parseContentLength() {
   }
 }
 
-std::string &HttpRequest::getMethod() { return method_; }
+std::string &HttpRequest::getMethod()
+{
+  return method_;
+}
 
-std::string &HttpRequest::getURI() { return uri_; }
+std::string &HttpRequest::getURI()
+{
+  return uri_;
+}
 
-std::string &HttpRequest::getProtocol() { return protocol_; }
+std::string &HttpRequest::getProtocol()
+{
+  return protocol_;
+}
 
-std::map<std::string, std::string> HttpRequest::getHeaders() const {
+std::map<std::string, std::string> HttpRequest::getHeaders() const
+{
   return headers_;
 }
 
-const std::string &HttpRequest::getBody() const { return body_; }
+const std::string &HttpRequest::getBody() const
+{
+  return body_;
+}
 
-std::string &HttpRequest::getPath() { return path_; }
+std::string &HttpRequest::getPath()
+{
+  return path_;
+}
 
-std::string &HttpRequest::getQuery() { return query_; }
+std::string &HttpRequest::getQuery()
+{
+  return query_;
+}
 
-std::string &HttpRequest::getFragment() { return frag_; }
+std::string &HttpRequest::getFragment()
+{
+  return frag_;
+}
 
-std::string &HttpRequest::getHeader(std::string key) { return headers_[key]; }
+std::string &HttpRequest::getHeader(std::string key)
+{
+  return headers_[key];
+}
 
-void HttpRequest::setTarget(std::string target) { target_ = target; }
+void HttpRequest::setTarget(std::string target)
+{
+  target_ = target;
+}
 
-std::string HttpRequest::getTarget() const { return target_; }
+std::string HttpRequest::getTarget() const
+{
+  return target_;
+}
 
-size_t HttpRequest::getContentLength() { return length_; }
+size_t HttpRequest::getContentLength()
+{
+  return length_;
+}
 
-int HttpRequest::getStatus() { return buffer_section_; }
+int HttpRequest::getStatus()
+{
+  return buffer_section_;
+}
 
-void HttpRequest::print_uri_extracts() {
-  std::cout << "uri: " << uri_ << "\n" << std::endl;
+void HttpRequest::print_uri_extracts()
+{
+  std::cout << "uri: " << uri_ << "\n"
+            << std::endl;
   std::cout << "scheme: " << scheme_ << std::endl;
   std::cout << "authority: " << authority_ << std::endl;
   std::cout << "path: " << path_ << std::endl;
@@ -152,22 +211,30 @@ void HttpRequest::print_uri_extracts() {
   std::cout << "fragment: " << frag_ << std::endl;
 }
 
-void HttpRequest::printRequest(HttpRequest parser) {
-  try {
+void HttpRequest::printRequest(HttpRequest parser)
+{
+  try
+  {
     std::cout << "Method: " << parser.getMethod() << std::endl;
     std::cout << "Target: " << parser.getURI() << std::endl;
     std::cout << "Protocol: " << parser.getProtocol() << std::endl;
     std::cout << "Headers:" << std::endl;
     const std::map<std::string, std::string> &headers = parser.getHeaders();
     std::map<std::string, std::string>::const_iterator it;
-    for (it = headers.begin(); it != headers.end(); ++it) {
+    for (it = headers.begin(); it != headers.end(); ++it)
+    {
       std::cout << it->first << ": " << it->second << std::endl;
     }
     std::cout << "Body: " << parser.getBody() << std::endl;
     std::cout << "-------------------------------\n";
-  } catch (const std::exception &e) {
+  }
+  catch (const std::exception &e)
+  {
     std::cerr << "Error parsing request: " << e.what() << std::endl;
   }
 }
 
-std::string &HttpRequest::getBody() { return body_; }
+std::string &HttpRequest::getBody()
+{
+  return body_;
+}

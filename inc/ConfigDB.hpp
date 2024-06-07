@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ConfigDB.hpp                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: drey <drey@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: doduwole <doduwole@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/01 10:41:49 by doduwole          #+#    #+#             */
-/*   Updated: 2024/06/07 22:49:05 by drey             ###   ########.fr       */
+/*   Updated: 2024/06/01 10:41:53 by doduwole         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ class ConfigDB{
 		void handleServerDB(MapStr keyMap, const std::string& key,const VecStr& values, size_t lhs, size_t rhs);
 		GroupedDBMap getServers() const;
 		GroupedDBMap getRootConfig() const;
-		std::string getIndexVariableKey(std::string &key, std::map<std::string, std::vector<std::string> > keyValues);
+
 		
 	private:
 		VecStr _variablePath;
