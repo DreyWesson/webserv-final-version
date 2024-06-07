@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Servers.cpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: doduwole <doduwole@student.42.fr>          +#+  +:+       +#+        */
+/*   By: drey <drey@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/01 10:46:55 by doduwole          #+#    #+#             */
-/*   Updated: 2024/06/06 17:52:57 by doduwole         ###   ########.fr       */
+/*   Updated: 2024/06/07 23:09:12 by drey             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -527,7 +527,7 @@ int Servers::setNonBlocking(int fd){
 
 int Servers::handleIncomingCgi(int child_fd){
 	std::string response;
-	int	client_fd;	
+	int	client_fd = -1;	
 	for (std::map<int, int>::iterator it = _cgi_clients_childfd.begin(); it != _cgi_clients_childfd.end(); it++)
 	{
 		if (it->first == child_fd)
