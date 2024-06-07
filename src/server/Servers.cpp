@@ -401,15 +401,15 @@ void Servers::assignLocalDomain(int server_fd) {
   for (std::map<std::string, std::vector<std::string>>::iterator it_domain =
            config.begin();
        it_domain != config.end(); it_domain++) {
-  // clang-format on
+    // clang-format on
     if (it_domain->first.find("server_name") != std::string::npos) {
       std::string server_name = it_domain->first;
       std::size_t pos = server_name.find("]");
       server_name = server_name.substr(0, pos + 1);
       std::string domain = server_name + ".listen";
-	  // clang-format off
+      // clang-format off
       std::map<std::string, std::vector<std::string> >::iterator
-	  // clang-format on
+          // clang-format on
           it_domain_listen = config.find(domain);
       if (it_domain_listen == config.end()) {
         for (std::vector<std::string>::iterator it = it_domain->second.begin();
@@ -427,12 +427,12 @@ void Servers::assignLocalDomain(int server_fd) {
 void Servers::assignDomain(std::string port, int server_fd) {
   if (port == "80")
     assignLocalDomain(server_fd);
-// clang-format off
+  // clang-format off
   std::map<std::string, std::vector<std::string> > config = getKeyValue();
   for (std::map<std::string, std::vector<std::string> >::iterator it =
            config.begin();
        it != config.end(); it++) {
-	// clang-format on
+    // clang-format on
     for (std::vector<std::string>::iterator it2 = it->second.begin();
          it2 != it->second.end(); it2++) {
       if (*it2 == port) {
@@ -440,9 +440,9 @@ void Servers::assignDomain(std::string port, int server_fd) {
         std::size_t pos = server_name.find("]");
         server_name = server_name.substr(0, pos + 1);
         std::string domain = server_name + ".server_name";
-		// clang-format off
+        // clang-format off
         std::map<std::string, std::vector<std::string> >::iterator it_domain =
-		// clang-format on
+            // clang-format on
             config.find(domain);
         if (it_domain != config.end()) {
           for (std::vector<std::string>::iterator it3 =
@@ -465,7 +465,7 @@ void Servers::assignDomain(std::string port, int server_fd) {
 }
 // clang-format off
 std::map<std::string, std::vector<std::string> > Servers::getKeyValue() const {
-// clang-format on
+  // clang-format on
   return (this->_keyValues);
 }
 
