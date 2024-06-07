@@ -15,19 +15,18 @@
 // clang-format off
 std::string getIndexVariableKey(const std::string &key, std::map<std::string, std::vector<std::string> > keyValues) {
     typedef std::map<std::string, std::vector<std::string> >::const_iterator MapIterator;
-// clang-format on
-    std::stringstream finalKey;
-    MapIterator it;
-    int index = 0;
+  // clang-format on
+  std::stringstream finalKey;
+  MapIterator it;
+  int index = 0;
 
-    for (it = keyValues.begin(); it != keyValues.end(); ++it) {
-        if (it->first.substr(0, it->first.size() - 3) == key)
-            ++index;
-    }
-    finalKey << "[" << index << "]";
-    return finalKey.str();
+  for (it = keyValues.begin(); it != keyValues.end(); ++it) {
+    if (it->first.substr(0, it->first.size() - 3) == key)
+      ++index;
+  }
+  finalKey << "[" << index << "]";
+  return finalKey.str();
 }
-
 
 void handleLogFormat(std::string line, std::string &value,
                      std::vector<std::string> tokens,
