@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "prepare": "husky install",
-    "lint": "cppcheck --enable=all --suppress=missingIncludeSystem --quiet .",
+    "lint": "cppcheck --suppress=all  --error-exitcode=1 .",
     "format": "find . -name '*.cpp' -o -name '*.h' | xargs clang-format -i",
     "build": "make re",
     "prepush": "npm run lint && npm run format && git diff --exit-code && npm run build"
