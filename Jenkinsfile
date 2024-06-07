@@ -1,7 +1,6 @@
-
 pipeline {
     agent any
-    
+
     stages {
         stage('Checkout') {
             steps {
@@ -12,14 +11,15 @@ pipeline {
             steps {
                 sh '''
                     sudo apt-get update
-                    sudo apt-get install -y clang-format cppcheck make
+                    sudo apt-get install -y clang-format cppcheck make nodejs npm
+                    npm install
                 '''
             }
         }
         stage('Lint') {
             steps {
                 script {
-                    def lintResult = sh(script: 'cppcheck --enable=all --error-exitcode=1 .', returnStatus: true)
+                    def lintResult = sh(script: 'npm run lint', returnStatus: true)
                     if (lintResult != 0) {
                         error "Linting errors found"
                     }
@@ -29,7 +29,7 @@ pipeline {
         stage('Format') {
             steps {
                 script {
-                    sh 'find . -name "*.cpp" -o -name "*.h" | xargs clang-format -i'
+                    sh 'npm run format'
                     def gitDiff = sh(script: 'git diff --exit-code', returnStatus: true)
                     if (gitDiff != 0) {
                         error "Formatting errors found"
@@ -39,7 +39,7 @@ pipeline {
         }
         stage('Build') {
             steps {
-                sh 'make re'
+                sh 'npm run build'
             }
         }
     }

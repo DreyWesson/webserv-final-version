@@ -1,0 +1,26 @@
+
+{
+  "name": "webserv-final-version",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "prepare": "husky install",
+    "lint": "cppcheck --enable=all --error-exitcode=1 .",
+    "format": "find . -name '*.cpp' -o -name '*.h' | xargs clang-format -i",
+    "build": "make re",
+    "prepush": "npm run lint && npm run format && git diff --exit-code && npm run build"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "devDependencies": {
+    "husky": "^9.0.11"
+  },
+  "husky": {
+    "hooks": {
+      "pre-push": "npm run prepush"
+    }
+  }
+}
+
