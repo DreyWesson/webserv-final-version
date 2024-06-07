@@ -6,7 +6,7 @@
 /*   By: drey <drey@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/01 10:46:55 by doduwole          #+#    #+#             */
-/*   Updated: 2024/06/07 22:39:03 by drey             ###   ########.fr       */
+/*   Updated: 2024/06/07 22:41:09 by drey             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,7 +114,7 @@ int Servers::bindSocket(std::string s_port) {
     return (0);
   }
   // clang-format off
-  for (std::map<int, std::vector<std::string>>::iterator it =
+  for (std::map<int, std::vector<std::string> >::iterator it =
            server_index.begin();
        it != server_index.end(); it++) {
     // clang-format on
@@ -343,7 +343,7 @@ void Servers::initEvents() {
 
 std::vector<std::string> Servers::getPorts() {
   // clang-format off
-  std::map<std::string, std::vector<std::string>> config = getKeyValue();
+  std::map<std::string, std::vector<std::string> > config = getKeyValue();
   // clang-format on
   std::stringstream ss;
   std::vector<std::string> ports_temp;
@@ -357,9 +357,9 @@ std::vector<std::string> Servers::getPorts() {
     std::string server_name = "server[" + ss.str() + "]";
     std::string server;
     // clang-format off
-    std::map<std::string, std::vector<std::string>>::iterator it_server_name =
+    std::map<std::string, std::vector<std::string> >::iterator it_server_name =
         config.end();
-    for (std::map<std::string, std::vector<std::string>>::iterator it =
+    for (std::map<std::string, std::vector<std::string> >::iterator it =
              config.begin();
          it != config.end(); it++) {
       // clang-format on
@@ -372,7 +372,7 @@ std::vector<std::string> Servers::getPorts() {
       }
     }
     // clang-format off
-    std::map<std::string, std::vector<std::string>>::iterator it_server =
+    std::map<std::string, std::vector<std::string> >::iterator it_server =
         config.find(server);
     // clang-format on
     if (it_server != config.end()) {
@@ -397,7 +397,7 @@ std::vector<std::string> Servers::getPorts() {
 
 void Servers::assignLocalDomain(int server_fd) {
   // clang-format off
-  std::map<std::string, std::vector<std::string>> config = getKeyValue();
+  std::map<std::string, std::vector<std::string> > config = getKeyValue();
   // clang-format on
   for (std::map<std::string, std::vector<std::string>>::iterator it_domain =
            config.begin();
