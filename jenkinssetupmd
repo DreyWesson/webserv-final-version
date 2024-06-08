@@ -1,0 +1,156 @@
+Setting up Jenkins for CI/CD to manage Git pull requests, running valgrind, make, containerizing with Docker, and running linters before accepting pull requests involves several steps. Here's a comprehensive guide to get you started from installation to configuration:
+
+Step 1: Install Jenkins
+On Ubuntu
+Add Jenkins Repository and Key:
+
+```
+wget -q -O - https://pkg.jenkins.io/debian/jenkins.io.key | sudo apt-key add -
+sudo sh -c 'echo deb http://pkg.jenkins.io/debian-stable binary/ > /etc/apt/sources.list.d/jenkins.list'
+```
+
+Install Jenkins:
+```
+sudo apt-get update
+sudo apt-get install jenkins
+```
+
+Start Jenkins:
+```
+sudo systemctl start jenkins
+sudo systemctl enable jenkins
+```
+Access Jenkins:
+Open your browser and go to http://your_server_ip_or_domain:8080. Use the initial admin password found in /var/lib/jenkins/secrets/initialAdminPassword.
+
+Step 2: Install and Configure Required Plugins
+Basic Setup:
+
+Follow the Jenkins setup wizard, installing suggested plugins.
+Additional Plugins:
+
+Go to Manage Jenkins > Manage Plugins > Available.
+Install the following plugins:
+Git Plugin
+GitHub Integration Plugin
+Pipeline Plugin
+Docker Pipeline Plugin
+Warnings Next Generation (for linters)
+Blue Ocean (for a modern UI, optional but recommended)
+Step 3: Configure Global Tool Configuration
+JDK and Maven:
+
+Go to Manage Jenkins > Global Tool Configuration.
+Configure JDK by adding JDK installations if necessary.
+Add Maven if you plan to use it.
+Docker:
+
+Ensure Docker is installed on the Jenkins server:
+```
+sudo apt-get update
+sudo apt-get install docker.io
+sudo usermod -aG docker jenkins
+```
+
+Restart Jenkins:
+```
+sudo systemctl restart jenkins
+```
+
+Create a Pipeline Job
+Create a New Pipeline Job:
+
+Go to Jenkins > New Item.
+Select Pipeline and give it a name.
+Configure Git Repository:
+
+Under Pipeline > Definition, select Pipeline script from SCM.
+Choose Git and add the repository URL.
+Add credentials if needed.
+Step 5: Write Jenkinsfile
+Create a Jenkinsfile in the root of your Git repository to define your pipeline. Here's an example Jenkinsfile:
+
+```
+pipeline {
+    agent {
+        docker { image 'ubuntu:latest' }
+    }
+    environment {
+        CC = 'clang'
+        CXX = 'clang++'
+    }
+    stages {
+        stage('Checkout') {
+            steps {
+                git branch: 'main', url: 'https://github.com/your-repo.git'
+            }
+        }
+        stage('Install Dependencies') {
+            steps {
+                sh 'apt-get update && apt-get install -y clang make valgrind python3 python3-flask perl'
+            }
+        }
+        stage('Lint') {
+            steps {
+                sh 'python3 -m pip install flake8'
+                sh 'flake8 your_code_directory'
+            }
+        }
+        stage('Build') {
+            steps {
+                sh 'make'
+            }
+        }
+        stage('Test') {
+            steps {
+                sh 'valgrind --leak-check=full ./your_binary'
+            }
+        }
+        stage('Containerize') {
+            steps {
+                script {
+                    docker.build('your_image_name')
+                }
+            }
+        }
+    }
+    post {
+        always {
+            junit 'path_to_your_test_reports/*.xml'
+        }
+        success {
+            echo 'Build was successful!'
+        }
+        failure {
+            echo 'Build failed.'
+        }
+    }
+}
+```
+
+Configure Webhooks (GitHub)
+Setup Webhooks:
+In your GitHub repository, go to Settings > Webhooks > Add webhook.
+Set the payload URL to http://your_jenkins_url/github-webhook/.
+Choose application/json as the content type.
+Select Just the push event or Send me everything.
+Step 7: Run and Monitor the Pipeline
+Trigger the Build:
+
+Push changes to your GitHub repository to trigger the build.
+Alternatively, you can trigger the build manually in Jenkins.
+Monitor:
+
+Use the Jenkins Blue Ocean UI for a modern interface to monitor builds and pipelines.
+Check console output, test results, and docker image creation status.
+Additional Tips
+Security and Users:
+
+Set up user authentication and authorization under Manage Jenkins > Configure Global Security.
+Create user roles and assign permissions appropriately.
+Backup and Maintenance:
+
+Regularly back up your Jenkins home directory (/var/lib/jenkins).
+Keep Jenkins and its plugins up-to-date for security and functionality.
+Conclusion
+With these steps, you have set up Jenkins to handle CI/CD for your projects, including linting, building, testing, and containerizing your applications. This setup ensures a robust pipeline that can catch issues early and streamline your development process.
