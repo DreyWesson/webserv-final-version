@@ -1,4 +1,3 @@
-
 # HTTP SERVER
 
 Understanding an HTTP server involves grasping various concepts, from basic networking and the HTTP protocol to server architecture and security considerations
